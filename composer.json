@@ -3,18 +3,22 @@
     "type": "project",
     "autoload": {
       "psr-4": {
-        "Adielseffrinbot\\": "src/"
+        "AdielSeffrinBot\\": "src/"
       }
     },
     "require": {
-      "react/event-loop": "^1.1",
-      "react/filesystem": "^0.1.2",
-      "wyrihaximus/react-child-process-pool": "^1.6",
+      "php": "^7.0 || ^5.4 || ^8.0",
+      "react/event-loop": "dev-master",
+      "react/filesystem": "dev-master",
+      "wyrihaximus/react-child-process-pool": "dev-master",
       "phergie/phergie-irc-client-react": "^3.1",
-      "phergie/phergie-irc-bot-react": "^2.0"
+      "phergie/phergie-irc-bot-react": "^2.0",
+      "vlucas/phpdotenv": "^5.3"
     },
     "scripts": {
-      "start": "php src/index.php"
+      "start": "php index.php",
+      "start:layer": "php -S 0.0.0.0:8080 layers/flush.php",
+      "server": "php server/server.php"
     },
     "config": {
       "process-timeout": 0

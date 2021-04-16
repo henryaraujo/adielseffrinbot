@@ -1,6 +1,9 @@
 <?php
 
-class ConexaoBD{
+namespace AdielSeffrinBot\Models;
+
+class ConexaoBD 
+{
     
   private $usuario;
   private $senha;

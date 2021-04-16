@@ -6,3 +6,6 @@
 # misc
 /Task/Database.class.php
 config.php
+
+# env
+.env
