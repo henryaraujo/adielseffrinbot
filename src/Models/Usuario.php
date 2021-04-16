@@ -1,8 +1,11 @@
 <?php
+
+namespace AdielSeffrinBot\Models;
 session_start();
 require_once "./Fome.class.php";
 
-class Usuario{
+class Usuario 
+{
     private $nick;
     private $id;
     private $fome;

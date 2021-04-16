@@ -1,6 +1,9 @@
 <?php 
 
-class Fome{
+namespace AdielSeffrinBot\Models;
+
+class Fome
+{
     
   public function quantidadeJogadaHoje($id, $conn){
 

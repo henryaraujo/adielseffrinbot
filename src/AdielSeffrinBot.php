@@ -1,16 +1,22 @@
 <?php
-require_once 'config.php';
-require_once 'vendor/autoload.php';
-require_once './comandos.php';
-require_once './Twitter.class.php';
-require_once './ConexaoBD.class.php';
-require_once './Usuario.class.php';
+/* 
+  require_once 'config.php';
+  require_once 'vendor/autoload.php';
+  require_once './comandos.php';
+*/
+
+namespace AdielSeffrinBot;
 
 use Phergie\Irc\Bot\React\PluginInterface;
 use React\EventLoop\LoopInterface;
 use Phergie\Irc\Client\React\LoopAwareInterface;
 
-class AdielBot
+use AdielSeffrinBot\Models\Twitter;
+use AdielSeffrinBot\Models\Usuario;
+use AdielSeffrinBot\Models\ConexaoBD;
+
+
+class AdielSeffrinBot
 {
 
   private $config;
