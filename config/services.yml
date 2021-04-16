@@ -1,0 +1,30 @@
+parameters:
+    database:
+        host: '%env(DATABASE_HOST)%'
+        name: '%env(DATABASE_NAME)%'
+        password: '%env(DATABASE_PASSWORD)%'
+        port: '%env(DATABASE_PORT)%'
+        user: '%env(DATABASE_USER)%'
+    
+    twitch:
+        channel: '%env(TWITCH_CHANNEL)%'
+        host: '%env(TWITCH_HOST)%'
+        port: '%env(TWITCH_PORT)%'
+        password: '%env(TWITCH_PASSWORD)%'
+        nickname: '%env(TWITCH_NICKNAME)%'
+
+    twitter:
+        api_key: '%env(TWITTER_API_KEY)%'
+        secret_key: '%env(TWITTER_SECRET_KEY)%'
+        access_token: '%env(TWITTER_ACCESS_TOKEN)%'
+        secret_token: '%env(TWITTER_SECRET_TOKEN)%'
+        bearer_token: '%env(TWITTER_BEARER_TOKEN)%'
+    
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    AdielSeffrinBot\:
+        resource: '../src/'
+        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
