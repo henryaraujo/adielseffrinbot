@@ -1,20 +1,18 @@
 <?php
 /* 
-  require_once 'config.php';
-  require_once 'vendor/autoload.php';
   require_once './comandos.php';
 */
 
 namespace AdielSeffrinBot;
 
-use Phergie\Irc\Bot\React\PluginInterface;
-use React\EventLoop\LoopInterface;
-use Phergie\Irc\Client\React\LoopAwareInterface;
+use Phergie\Irc\Connection;
+use Phergie\Irc\Client\React\Client;
+use React\Socket\Connector;
 
 use AdielSeffrinBot\Models\Twitter;
 use AdielSeffrinBot\Models\Usuario;
 use AdielSeffrinBot\Models\ConexaoBD;
-
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AdielSeffrinBot
 {
@@ -25,29 +23,30 @@ class AdielSeffrinBot
   protected $socketConnector;
   private $twitter;
   private $write;
-  private $debugando;
   private $conn;
   private $ausenciaArray;
   private $pessoasNoChat;
+  private $envs;
 
 
 
-  public function __construct()
+  public function __construct(ContainerInterface $container)
   {
-    $this->config = new Config();
+    $this->envs = (object)$container->getParameter('twitch');
+    /* $this->config = new Config();
     $BD = new ConexaoBD($this->config->getUserBD(),$this->config->getSenhaBD());
     $BD->connect();
-    $this->conn = $BD->getConn();
-    $this->connection = new \Phergie\Irc\Connection();
+    $this->conn = $BD->getConn(); */
+    $this->connection = new Connection();
     $this->connection
-      ->setServerHostname('irc.chat.twitch.tv')
-      ->setServerPort(6667)
-      ->setPassword($this->config->getPassword())
-      ->setNickname($this->config->getBotName())
-      ->setUsername($this->config->getBotName());
+      ->setServerHostname($this->envs->host)
+      ->setServerPort($this->envs->port)
+      ->setPassword($this->envs->password)
+      ->setNickname($this->envs->nickname)
+      ->setUsername($this->envs->nickname);
 
-    $this->client = new \Phergie\Irc\Client\React\Client();
-    $this->socketConnector = new React\Socket\Connector($this->client->getLoop());
+    $this->client = new Client();
+    $this->socketConnector = new Connector($this->client->getLoop());
     $this->ausenciaArray = array();
     $this->pessoasNoChat = array();
     
@@ -57,8 +56,7 @@ class AdielSeffrinBot
   {
     $this->client->on('connect.after.each', function ($c, $write) {
       $this->onJoin($c, $write);
-      //$this->sendRetweet($this->client, $this->config->getRetweetTime(), $write);
-      $this->client->addPeriodicTimer($this->config->getRetweetTime(), function () use ($write) {
+      /* $this->client->addPeriodicTimer($this->config->getRetweetTime(), function () use ($write) {
         retweet($this->twitter, $write, $this->config->getChannelName());
       });
 
@@ -66,7 +64,7 @@ class AdielSeffrinBot
         $this->client->addPeriodicTimer($this->config->getPrimeTime(), function () use ($write) {
           prime($write, $this->config->getChannelName());
         });
-      });
+      }); */
     });
 
     $this->client->on('irc.received', function ($m, $w, $c, $l) {
@@ -89,12 +87,10 @@ class AdielSeffrinBot
   function onJoin($connection, $write)
   {
 
-    $write->ircJoin($this->config->getChannelName());
-    $write->ircPrivmsg($this->config->getChannelName(), 'Sou um bot ou um bug?');
+    $write->ircJoin($this->envs->channel);
+    $write->ircPrivmsg($this->envs->channel, 'Sou um bot ou um bug?');
     
-    //$this->debugando = new Debugando();
     $this->twitter = new Twitter($this->config->getTwitterKeys());
-    //lembreteRetweet($loop, $twitter, $write, $seuCanal);
   }
 
   function onMessage($message, $write, $connection, $logger)
@@ -135,9 +131,6 @@ class AdielSeffrinBot
           case "!rt":
             retweet($this->twitter, $write, $this->config->getChannelName());
             break;
-          // case "!debugando":
-          //   $this->debugando->tratarComando($message, $write, $this->config->getChannelName());
-          //   break;
           case "!fome":
           case "!ranking":
             $username = str_replace("@", "", $message['user']);

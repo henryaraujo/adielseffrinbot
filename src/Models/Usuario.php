@@ -1,8 +1,9 @@
 <?php
 
 namespace AdielSeffrinBot\Models;
-session_start();
-require_once "./Fome.class.php";
+
+use AdielSeffrinBot\Models\Fome;
+// session_start();
 
 class Usuario 
 {

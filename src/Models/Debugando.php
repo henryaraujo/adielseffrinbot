@@ -2,7 +2,7 @@
 
 namespace AdielSeffrinBot\Models;
 
-require_once './player.php';
+use AdielSeffrinBot\Models\Player;
 
 class Debugando
 {
