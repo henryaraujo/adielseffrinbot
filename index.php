@@ -12,4 +12,3 @@ $container = Container::create();
 $container->compile(true);
 
 $adielseffrin = new AdielSeffrinBot($container);
-$adielseffrin->run();

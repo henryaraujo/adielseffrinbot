@@ -1,30 +1,66 @@
 parameters:
-    database:
-        host: '%env(DATABASE_HOST)%'
-        name: '%env(DATABASE_NAME)%'
-        password: '%env(DATABASE_PASSWORD)%'
-        port: '%env(DATABASE_PORT)%'
-        user: '%env(DATABASE_USER)%'
+    pdo.class: PDO
+    pdo.attr_errmode: 3
+    pdo.erromode_exception: 2
+    #database config
+    database.driver: '%env(DATABASE_DRIVER)%'
+    database.host: '%env(DATABASE_HOST)%'
+    database.name: '%env(DATABASE_NAME)%'
+    database.password: '%env(DATABASE_PASSWORD)%'
+    database.port: '%env(DATABASE_PORT)%'
+    database.user: '%env(DATABASE_USER)%'
+    database.dsn: '%database.driver%:host=%database.host%;port=%database.port%;dbname=%database.name%'
     
-    twitch:
-        channel: '%env(TWITCH_CHANNEL)%'
-        host: '%env(TWITCH_HOST)%'
-        port: '%env(TWITCH_PORT)%'
-        password: '%env(TWITCH_PASSWORD)%'
-        nickname: '%env(TWITCH_NICKNAME)%'
+    #twitch config
+    twitch.channel: '%env(TWITCH_CHANNEL)%'
+    twitch.host: '%env(TWITCH_HOST)%'
+    twitch.port: '%env(TWITCH_PORT)%'
+    twitch.password: '%env(TWITCH_PASSWORD)%'
+    twitch.nickname: '%env(TWITCH_NICKNAME)%'
 
-    twitter:
-        api_key: '%env(TWITTER_API_KEY)%'
-        secret_key: '%env(TWITTER_SECRET_KEY)%'
-        access_token: '%env(TWITTER_ACCESS_TOKEN)%'
-        secret_token: '%env(TWITTER_SECRET_TOKEN)%'
-        bearer_token: '%env(TWITTER_BEARER_TOKEN)%'
+    #twitter config
+    twitter.api_key: '%env(TWITTER_API_KEY)%'
+    twitter.secret_key: '%env(TWITTER_SECRET_KEY)%'
+    twitter.access_token: '%env(TWITTER_ACCESS_TOKEN)%'
+    twitter.secret_token: '%env(TWITTER_SECRET_TOKEN)%'
+    twitter.bearer_token: '%env(TWITTER_BEARER_TOKEN)%'
     
 services:
     _defaults:
-        autowire: true
+        autowire: false
         autoconfigure: true
+        public: true
 
     AdielSeffrinBot\:
         resource: '../src/'
-        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Models}'
+    
+    database:
+        class: '%pdo.class%'
+        arguments:
+        - '%database.dsn%'
+        - '%database.user%'
+        - '%database.password%'
+        - 'option': ['%pdo.attr_errmode%', '%pdo.erromode_exception%']
+    
+    # AdielSeffrinBot\Infrastructure\Database:
+    #     arguments: 
+    #         - '%database.driver%'
+    #         - '%database.host%'
+    #         - '%database.name%'
+    #         - '%database.port%'
+    #         - '%database.user%'
+    #         - '%database.password%'
+    #     calls:
+    #         - ['connect']
+    
+    AdielSeffrinBot\Services\TwitterService:
+        arguments: 
+            - '%twitter.api_key%'
+            - '%twitter.secret_key%'
+            - '%twitter.access_token%'
+            - '%twitter.secret_token%'
+            - '%twitter.bearer_token%'
+    
+    AdielSeffrinBot\Repositories\Repository:
+        arguments: ['@database']    

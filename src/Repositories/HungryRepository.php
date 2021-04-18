@@ -2,32 +2,9 @@
 
 namespace AdielSeffrinBot\Repositories;
 
-use AdielSeffrinBot\Interfaces\RepositoryInterface;
+use AdielSeffrinBot\Repositories\Repository;
 
-class HungryRepository implements RepositoryInterface
+class HungryRepository extends Repository
 {
-    public function findAll()
-    {
-
-    }
-
-    public function findById(int $id)
-    {
-        
-    }
-
-    public function create(object $entity)
-    {
-
-    }
-
-    public function update(int $id, object $entity)
-    {
-
-    }
-
-    public function remove(int $id)
-    {
-
-    }
+    
 }
