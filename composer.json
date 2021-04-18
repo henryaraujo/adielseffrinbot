@@ -17,6 +17,9 @@
       "symfony/config": "^5.2",
       "symfony/yaml": "^5.2"
     },
+    "require-dev": {
+      "symfony/var-dumper": "^4.1"
+    },
     "scripts": {
       "start": "php index.php",
       "start:layer": "php -S 0.0.0.0:8080 public/flush.php",

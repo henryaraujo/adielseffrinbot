@@ -2,11 +2,11 @@
 
 namespace AdielSeffrinBot\Repositories;
 
-use AdielSeffrinBot\Repositories\Repository;
+use AdielSeffrinBot\Interfaces\RepositoryInterface;
 
-class UserRepository extends Repository
+abstract class Repository implements RepositoryInterface
 {
-    /* public function __construct(private ConnectionInterface $database)
+    public function __construct()
     {
 
     }
@@ -34,5 +34,5 @@ class UserRepository extends Repository
     public function remove(int $id)
     {
 
-    } */
+    }
 }

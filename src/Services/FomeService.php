@@ -1,9 +1,16 @@
 <?php 
 
-namespace AdielSeffrinBot\Models;
+namespace AdielSeffrinBot\Services;
 
-class Fome
+use AdielSeffrinBot\Repositories\HungryRepository;
+
+class FomeService
 {
+
+  public function __construct(private HungryRepository $repository)
+  {
+
+  }
     
   public function quantidadeJogadaHoje($id, $conn){
 

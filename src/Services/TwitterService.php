@@ -1,28 +1,21 @@
 <?php
 
-namespace AdielSeffrinBot\Models;
+namespace AdielSeffrinBot\Services;
 
-class Twitter
+class TwitterService
 {
-
-  private $api_key;
-  private $secret_key;
-  private $access_token;
-  private $secret_token;
-  private $bearer_key;
 
   private $ultimoTweet;
 
-  public function __construct($keys)
+  public function __construct(
+    private string $api_key,
+    private string $secret_key,
+    private string $access_token,
+    private string $secret_token,
+    private string $bearer_key,
+  )
   {
-    $this->api_key = $keys['TWITTER_API_KEY'];
-    $this->secret_key = $keys['TWITTER_SECRET_KEY'];
-    $this->access_token = $keys['TWITTER_ACCESS_TOKEN'];
-    $this->secret_token = $keys['TWITTER_SECRET_TOKEN'];
-    $this->bearer_key = $keys['TWITTER_BEARER_TOKEN'];
-
     $this->ultimoTweet = $this->getUltimoTweet();
-    
   }
 
   function getRetweetText()

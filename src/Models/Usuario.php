@@ -2,7 +2,7 @@
 
 namespace AdielSeffrinBot\Models;
 
-use AdielSeffrinBot\Models\Fome;
+use AdielSeffrinBot\Services\FomeService;
 // session_start();
 
 class Usuario 
@@ -15,11 +15,13 @@ class Usuario
     static $ranking = array();
     static $ultimaExibicao = null;
 
-    public function __construct($nick)
+    public function __construct(/* $nick */)
     {
+
         $this->id = 0;
-        $this->nick = $nick;
-        $this->fome = new Fome();
+        $this->nick = "nickname";
+        // $this->nick = $nick;
+        $this->fome = new FomeService();
         
     }
 
