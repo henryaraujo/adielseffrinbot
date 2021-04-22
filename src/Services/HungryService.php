@@ -2,17 +2,20 @@
 
 namespace AdielSeffrinBot\Services;
 
-use AdielSeffrinBot\Repositories\HungryRepository;
+use AdielSeffrinBot\Interfaces\HungryRepositoryInterface;
 
-class FomeService
+class HungryService
 {
 
-  public function __construct(private HungryRepository $repository)
-  {
+  	public function __construct(private HungryRepositoryInterface $repository) {}
 
-  }
+  	public function totalPlayedToday($userId)
+  	{
+		$this->repository->getTotalTakeHungryByUser($userId);
+		
+  	}
     
-  public function quantidadeJogadaHoje($id, $conn){
+  /* public function quantidadeJogadaHoje($id, $conn){
 
     $stmt = $conn->prepare('SELECT count(id_usuario) AS total FROM tentativas_fome WHERE id_usuario = :id_usuario AND data_tentativa = curdate()');
     $stmt->execute(array(':id_usuario'=>$id));
@@ -25,5 +28,5 @@ class FomeService
     $stmt = $conn->prepare('INSERT INTO tentativas_fome (id_usuario, pontos) VALUES (:id_usuario, :pontos)');
     $stmt->execute(array(':id_usuario'=>$id, ':pontos' => $pontos));  
     return $pontos;  
-  }
+  } */
 }

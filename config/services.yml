@@ -43,17 +43,20 @@ services:
         - '%database.password%'
         - 'option': ['%pdo.attr_errmode%', '%pdo.erromode_exception%']
     
-    # AdielSeffrinBot\Infrastructure\Database:
-    #     arguments: 
-    #         - '%database.driver%'
-    #         - '%database.host%'
-    #         - '%database.name%'
-    #         - '%database.port%'
-    #         - '%database.user%'
-    #         - '%database.password%'
-    #     calls:
-    #         - ['connect']
     
+    bot.connection:
+        class: '\Phergie\Irc\Connection'
+        arguments:
+            - { serverHostname: '%twitch.host%', 
+                serverPort: '%twitch.port%',
+                password: '%twitch.password%',
+                nickname: '%twitch.nickname%',
+                username: '%twitch.nickname%'
+            }
+
+    bot.client:
+        class: '\Phergie\Irc\Client\React\Client'
+
     AdielSeffrinBot\Services\TwitterService:
         arguments: 
             - '%twitter.api_key%'
@@ -62,5 +65,22 @@ services:
             - '%twitter.secret_token%'
             - '%twitter.bearer_token%'
     
-    AdielSeffrinBot\Repositories\Repository:
-        arguments: ['@database']    
+    AdielSeffrinBot\Repositories\HungryRepository:
+        arguments: ['@database']
+    
+    AdielSeffrinBot\Repositories\UserRepository:
+        arguments: ['@database']
+    
+    AdielSeffrinBot\Services\HungryService:
+        arguments: ['@AdielSeffrinBot\Repositories\HungryRepository']
+
+    AdielSeffrinBot\Services\UserService:
+        arguments: ['@AdielSeffrinBot\Repositories\UserRepository']
+
+    AdielSeffrinBot\Adapters\PhergieClientAdapter:
+        arguments:
+            - '@bot.client'
+            - '@bot.connection'
+            - '@service_container'
+        calls:
+            - ['connect']

@@ -2,7 +2,7 @@
 
 namespace AdielSeffrinBot\Models;
 
-use AdielSeffrinBot\Services\FomeService;
+use AdielSeffrinBot\Services\HungryService;
 // session_start();
 
 class Usuario 
@@ -21,7 +21,7 @@ class Usuario
         $this->id = 0;
         $this->nick = "nickname";
         // $this->nick = $nick;
-        $this->fome = new FomeService();
+        $this->fome = new HungryService();
         
     }
 

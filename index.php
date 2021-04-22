@@ -6,6 +6,7 @@ use Symfony\Component\Dotenv\Dotenv;
 use AdielSeffrinBot\Infrastructure\Container;
 use AdielSeffrinBot\AdielSeffrinBot;
 
+
 (new DotEnv())->load(__DIR__ . DIRECTORY_SEPARATOR. '.env');
 
 $container = Container::create();
