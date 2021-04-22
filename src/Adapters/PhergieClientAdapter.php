@@ -26,7 +26,18 @@ class PhergieClientAdapter implements ClientBotAdapterInterface
 		});
 
 		$this->client->on('irc.received', function($message, $write, $connection, $logger){
-            print_r($message);
+            if($message['command'] == 'PRIVMSG'){
+
+                ['user' => $user, 'params' => $params] = $message;
+                ['text' => $text] = $params;
+                [$command, $complement] = explode(' ', $text);
+                
+                if(str_starts_with($command, '!')) {
+                    $service = substr($command, 1).".command";
+                    $dispatch = $this->container->get($service);
+                    $this->message($write, $dispatch->execute());
+                }
+            }
 		});
         $this->client->run($this->connection);
     }
@@ -37,8 +48,8 @@ class PhergieClientAdapter implements ClientBotAdapterInterface
 		$write->ircPrivmsg($this->channel, "I'm here everybody!");
     }
 
-    public function message()
+    public function message($write, string $text)
     {
-
+        $write->ircPrivmsg($this->channel, $text);
     }
 }
