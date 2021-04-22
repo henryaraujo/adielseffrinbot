@@ -2,7 +2,7 @@
 
 namespace AdielSeffrinBot\Interfaces;
 
-interface HungryRepositoryInterface
+interface HungryRepositoryInterface extends RepositoryInterface
 {
     public function getTotalTakeHungryByUser(int $userId);
 } 

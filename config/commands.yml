@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        public: true
+
+    hello.command:
+        class: 'AdielSeffrinBot\Commands\HelloCommand'
+        arguments: ['@AdielSeffrinBot\Services\HelloService']
+        calls:
+            - ['execute']

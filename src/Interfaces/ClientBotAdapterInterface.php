@@ -6,5 +6,5 @@ interface ClientBotAdapterInterface
 {
 	public function connect();
 	public function join($write);
-	public function message();
+	public function message($write, string $text);
 }

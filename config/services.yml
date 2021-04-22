@@ -1,16 +1,9 @@
+imports:
+    - { resource: 'commands.yml'}
+    - { resource: 'repositories.yml'}
+
 parameters:
-    pdo.class: PDO
-    pdo.attr_errmode: 3
-    pdo.erromode_exception: 2
-    #database config
-    database.driver: '%env(DATABASE_DRIVER)%'
-    database.host: '%env(DATABASE_HOST)%'
-    database.name: '%env(DATABASE_NAME)%'
-    database.password: '%env(DATABASE_PASSWORD)%'
-    database.port: '%env(DATABASE_PORT)%'
-    database.user: '%env(DATABASE_USER)%'
-    database.dsn: '%database.driver%:host=%database.host%;port=%database.port%;dbname=%database.name%'
-    
+   
     #twitch config
     twitch.channel: '%env(TWITCH_CHANNEL)%'
     twitch.host: '%env(TWITCH_HOST)%'
@@ -35,15 +28,6 @@ services:
         resource: '../src/'
         exclude: '../src/{DependencyInjection,Models}'
     
-    database:
-        class: '%pdo.class%'
-        arguments:
-        - '%database.dsn%'
-        - '%database.user%'
-        - '%database.password%'
-        - 'option': ['%pdo.attr_errmode%', '%pdo.erromode_exception%']
-    
-    
     bot.connection:
         class: '\Phergie\Irc\Connection'
         arguments:
@@ -65,17 +49,11 @@ services:
             - '%twitter.secret_token%'
             - '%twitter.bearer_token%'
     
-    AdielSeffrinBot\Repositories\HungryRepository:
-        arguments: ['@database']
-    
-    AdielSeffrinBot\Repositories\UserRepository:
-        arguments: ['@database']
-    
     AdielSeffrinBot\Services\HungryService:
-        arguments: ['@AdielSeffrinBot\Repositories\HungryRepository']
+        arguments: ['@hungry.repository']
 
     AdielSeffrinBot\Services\UserService:
-        arguments: ['@AdielSeffrinBot\Repositories\UserRepository']
+        arguments: ['@user.repository']
 
     AdielSeffrinBot\Adapters\PhergieClientAdapter:
         arguments:

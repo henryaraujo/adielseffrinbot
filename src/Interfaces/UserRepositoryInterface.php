@@ -2,7 +2,7 @@
 
 namespace AdielSeffrinBot\Interfaces;
 
-interface UserRepositoryInterface
+interface UserRepositoryInterface extends RepositoryInterface
 {
     public function getUsers();
     public function getUserById(int $id);
