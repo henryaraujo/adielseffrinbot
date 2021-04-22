@@ -9,17 +9,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PhergieClientAdapter implements ClientBotAdapterInterface
 {
-    public function __construct(private Client $client, ContainerInterface $container)
+    public function __construct(
+        private Client $client,
+        private Connection $connection,
+        private ContainerInterface $container
+    )
     {
-        $this->options = [
-			'serverHostname' => $container->getParameter('twitch.host'),
-			'serverPort' => $container->getParameter('twitch.port'),
-			'password' => $container->getParameter('twitch.password'),
-			'nickname' => $container->getParameter('twitch.nickname'),
-			'username' => $container->getParameter('twitch.nickname')
-		];
+
 		$this->channel  = $container->getParameter('twitch.channel');
-		$this->connection = new Connection($this->options);
     }
 
     public function connect()

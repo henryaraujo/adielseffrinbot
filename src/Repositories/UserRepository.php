@@ -2,37 +2,21 @@
 
 namespace AdielSeffrinBot\Repositories;
 
-use AdielSeffrinBot\Repositories\Repository;
+use AdielSeffrinBot\Interfaces\UserRepositoryInterface;
 
-class UserRepository extends Repository
+class UserRepository implements UserRepositoryInterface
 {
-    /* public function __construct(private ConnectionInterface $database)
+    public function __construct(private \PDO $database)
     {
 
     }
-
-    public function findAll()
-    {
-
+    
+    public function getUsers(){
+        return $this->database->query("SELECT * FROM user");
     }
 
-    public function findById(int $id)
+    public function getUserById(int $id)
     {
         
     }
-
-    public function create(object $entity)
-    {
-
-    }
-
-    public function update(int $id, object $entity)
-    {
-
-    }
-
-    public function remove(int $id)
-    {
-
-    } */
 }
